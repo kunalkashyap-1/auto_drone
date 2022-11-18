@@ -2,6 +2,7 @@ import cv2
 import cv2.aruco as aruco
 import numpy as np
 import os
+import time
 
 
 def detectAruco(img, markerSize=6, totalMarker=250, draw=True):
@@ -22,6 +23,7 @@ def main():
         cv2.imshow("img", img)
         detectAruco(img)
         cv2.waitKey(1)
+        time.sleep(1)
 
 
 if __name__ == "__main__":
