@@ -62,20 +62,22 @@ arucoParams = cv2.aruco.DetectorParameters_create()
 
 
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_BUFFERSIZE,5)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
 
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 while cap.isOpened():
 	ret, img = cap.read()
 	h, w, _ = img.shape
-	width = 1000
+	width = 480
 	height = int(width*(h/w))
 	img = cv2.resize(img, (width, height), interpolation=cv2.INTER_CUBIC)
-	corners, ids, rejected = cv2.aruco.detectMarkers(img, arucoDict, parameters=arucoParams)
-	detected_markers = aruco_display(corners, ids, rejected, img)
+	grey=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	corners, ids, rejected = cv2.aruco.detectMarkers(grey, arucoDict, parameters=arucoParams)
+	detected_markers = aruco_display(corners, ids, rejected, grey)
 	cv2.imshow("Image", detected_markers)
-	key = cv2.waitKey(1) & 0xFF
+	key = cv2.waitKey(30) & 0xFF
 	if key == ord("q"):
 	    break
 
